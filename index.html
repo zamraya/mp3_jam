@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('/images/background.jpg'); 
+      background-color: #f0f0f0;
+      backdrop-filter: blur(5px);
+      background-repeat: repeat;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .navigation {
+      margin-top: 20px;
+    }
+
+    .navigation button {
+      background-color: lightgray;
+      border: none;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+
+    .navigation button:hover {
+      background-color: dimgray;
+      color: white;
+    }
+
+    .navigation button:active {
+      background-color: gray;
+    }
+
+    img {
+      width: 300px;
+      height: 300px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .track-info {
+      margin-top: 20px;
+    }
+
+    .track-info h2 {
+      margin: 10px 0;
+    }
+
+    .track-info p {
+      margin: 5px 0;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lany Songs</h1>
+  <a href="homepage.html">Back to Homepage</a>
+  
+  <img id="albumArt" src="your-image-file.jpg" alt="Album Art">
+  
+  <div class="track-info">
+    <h2 id="trackTitle">Song Title</h2>
+    <p id="trackArtist">Artist</p>
+  </div>
+  
+  <audio id="musicPlayer" controls>
+    <source src="your-music-file.mp3" type="audio/mpeg">
+  </audio>
+  
+  <div class="navigation">
+    <button id="previousButton"><i class="fas fa-step-backward"></i></button>
+    <button id="playPauseButton"><i class="fas fa-play"></i></button>
+    <button id="nextButton"><i class="fas fa-step-forward"></i></button>
+  </div>
+
+  <script>
+    const musicPlayer = document.getElementById('musicPlayer');
+    const albumArt = document.getElementById('albumArt');
+    const trackTitle = document.getElementById('trackTitle');
+    const trackArtist = document.getElementById('trackArtist');
+    const previousButton = document.getElementById('previousButton');
+    const playPauseButton = document.getElementById('playPauseButton');
+    const nextButton = document.getElementById('nextButton');
+
+    const tracks = [
+      {
+        src: '/music/Lany - Pink Skies (Lyrics).m4a',
+        img: '/images/pink-skies.jpg',
+        title: 'Pink Skies',
+        artist: 'Lany'
+      },
+      {
+        src: '/music/Thru These Tears Lany Lyrics.mp3.m4a',
+        img: '/images/thruthesetears.jpg',
+        title: 'Thru These Tears',
+        artist: 'Lany'
+      },
+      {
+        src: '/music/LANY - Thick And Thin (Lyrics).m4a',
+        img: '/images/thick&thinjpg',
+        title: 'Thick & Thin',
+        artist: 'Lany'
+      },
+    ];
+
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+
+    function loadTrack(index) {
+      musicPlayer.src = tracks[index].src;
+      albumArt.src = tracks[index].img;
+      trackTitle.textContent = tracks[index].title;
+      trackArtist.textContent = tracks[index].artist;
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        musicPlayer.pause();
+        isPlaying = false;
+        playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+      } else {
+        musicPlayer.play();
+        isPlaying = true;
+        playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+      }
+    }
+
+    function playNextTrack() {
+      currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(currentTrackIndex);
+      if (isPlaying) musicPlayer.play();
+    }
+
+    function playPreviousTrack() {
+      currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrackIndex);
+      if (isPlaying) musicPlayer.play();
+    }
+    
+    playPauseButton.addEventListener('click', togglePlayPause);
+    nextButton.addEventListener('click', playNextTrack);
+    previousButton.addEventListener('click', playPreviousTrack);
+    
+    musicPlayer.addEventListener('ended', playNextTrack);
+
+    loadTrack(currentTrackIndex);
+  </script>
+</body>
+</html>
