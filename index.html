@@ -71,7 +71,6 @@
       margin: 10px 0;
     }
 
-    /* For spinning effect */
     @keyframes spin {
       from {
         transform: rotate(0deg);
@@ -132,29 +131,24 @@
 <body>
 
   <div class="player-container">
-    <!-- Album Art -->
     <div class="album-art">
       <img id="albumArt" src="/images/pink-skies.jpg" alt="Album Art" style="width: 100%; height: 100%;">
     </div>
 
-    <!-- Song and Artist Info -->
     <div class="track-details">
       <h2 id="trackTitle">Pink Skies</h2>
       <h3 id="trackArtist">LANY</h3>
       <p id="trackLyrics">"That it's better, you and I, under pink skies"</p>
 
-      <!-- Progress Bar -->
       <div class="progress-bar">
         <div class="progress" id="progress"></div>
       </div>
 
-      <!-- Time Info -->
       <div class="time-info">
         <span id="currentTime">0:00</span>
         <span id="totalTime">0:00</span>
       </div>
 
-      <!-- Controls -->
       <div class="controls">
         <button id="previousButton"><i class="fas fa-step-backward"></i></button>
         <button id="playPauseButton"><i class="fas fa-play"></i></button>
@@ -183,7 +177,6 @@
     let isPlaying = false;
     let currentTrackIndex = 0;
 
-    // Track List
     const tracks = [
       {
         src: '/music/Lany - Pink Skies (Lyrics).m4a',
@@ -222,7 +215,6 @@
       }
     ];
 
-    // Load a track based on index
     function loadTrack(index) {
       const track = tracks[index];
       musicPlayer.src = track.src;
@@ -231,13 +223,11 @@
       trackArtist.textContent = track.artist;
       trackLyrics.textContent = track.lyrics;
       
-      // Update total time display
       musicPlayer.onloadedmetadata = function() {
         totalTime.textContent = formatTime(musicPlayer.duration);
       };
     }
 
-    // Toggle Play/Pause
     function togglePlayPause() {
       if (isPlaying) {
         musicPlayer.pause();
@@ -252,7 +242,6 @@
       }
     }
 
-    // Play next track
     function playNextTrack() {
       currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
       loadTrack(currentTrackIndex);
@@ -261,7 +250,6 @@
       }
     }
 
-    // Play previous track
     function playPreviousTrack() {
       currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
       loadTrack(currentTrackIndex);
@@ -270,7 +258,6 @@
       }
     }
 
-    // Update progress bar and current time display
     musicPlayer.addEventListener('timeupdate', () => {
       const current = musicPlayer.currentTime;
       const duration = musicPlayer.duration
@@ -279,19 +266,16 @@
       currentTime.textContent = formatTime(current);
     });
 
-    // Format time as mm:ss
     function formatTime(timeInSeconds) {
       const minutes = Math.floor(timeInSeconds / 60);
       const seconds = Math.floor(timeInSeconds % 60);
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
 
-    // Event Listeners
     playPauseButton.addEventListener('click', togglePlayPause);
     nextButton.addEventListener('click', playNextTrack);
     previousButton.addEventListener('click', playPreviousTrack);
 
-    // Load the first track on page load
     loadTrack(currentTrackIndex);
   </script>
 
