@@ -3,177 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playlist</title>
+  <title>Music Player</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Arial', sans-serif;
+      background: url('/images/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .player-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      width: 700px;
+    }
+
+    .album-art {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 5px solid white;
+      overflow: hidden;
+      flex-shrink: 0;
+      margin-right: 30px;
+      animation: spin 20s linear infinite;
+    }
+
+    .track-details {
+      color: black;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-image: url('/images/background.jpg'); 
-      background-color: #f0f0f0;
-      backdrop-filter: blur(5px);
-      background-repeat: repeat;
-    }
-
-    h1 {
-      margin-top: 20px;
-      font-size: 60px;
-    }
-
-    .navigation {
-      margin-top: 20px;
-    }
-
-    .navigation button {
-      background-color: black;
-      border: none;
-      color: white;
+      border: 2px solid white;
       padding: 15px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: background-color 0.3s;
-    }
-
-    .navigation button:hover {
-      background-color: black;
-      color: white;
-    }
-
-    .navigation button:active {
-      background-color: black;
-    }
-
-    img {
-      width: 300px;
-      height: 300px;
-      margin-top: 20px;
       border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      width: 100%;
     }
 
-    .track-info {
-      margin-top: 20px;
+    .track-details h2 {
+      font-size: 24px;
+      margin: 0;
     }
 
-    .track-info h2 {
+    .track-details h3 {
+      font-size: 18px;
+      font-weight: 300;
+      margin: 5px 0;
+    }
+
+    .track-details p {
+      font-size: 16px;
       margin: 10px 0;
     }
 
-    .track-info p {
-      margin: 5px 0;
-      font-size: 1.2em;
+    /* For spinning effect */
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .controls button {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: black;
+      font-size: 24px;
+      border-radius: 50%;
+      padding: 10px;
+      margin: 0 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .progress {
+      height: 100%;
+      background-color: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .time-info {
+      display: flex;
+      justify-content: space-between;
+      color: black;
+      font-size: 14px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <h1>LANY</h1>
-  <a href="homepage.html">Back to Home</a>
-  
-  <img id="albumArt" src="your-image-file.jpg" alt="Album Art">
-  
-  <div class="track-info">
-    <h2 id="trackTitle">Song Title</h2>
-    <p id="trackArtist">Artist</p>
+
+  <div class="player-container">
+    <!-- Album Art -->
+    <div class="album-art">
+      <img id="albumArt" src="/images/pink-skies.jpg" alt="Album Art" style="width: 100%; height: 100%;">
+    </div>
+
+    <!-- Song and Artist Info -->
+    <div class="track-details">
+      <h2 id="trackTitle">Pink Skies</h2>
+      <h3 id="trackArtist">LANY</h3>
+      <p id="trackLyrics">"That it's better, you and I, under pink skies"</p>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <!-- Time Info -->
+      <div class="time-info">
+        <span id="currentTime">0:00</span>
+        <span id="totalTime">0:00</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button id="previousButton"><i class="fas fa-step-backward"></i></button>
+        <button id="playPauseButton"><i class="fas fa-play"></i></button>
+        <button id="nextButton"><i class="fas fa-step-forward"></i></button>
+      </div>
+    </div>
   </div>
-  
-  <audio id="musicPlayer" controls>
-    <source src="your-music-file.mp3" type="audio/mpeg">
+
+  <audio id="musicPlayer" controls style="display: none;">
+    <source src="/music/Lany_Pink_Skies.mp3" type="audio/mpeg">
   </audio>
-  
-  <div class="navigation">
-    <button id="previousButton"><i class="fas fa-step-backward"></i></button>
-    <button id="playPauseButton"><i class="fas fa-play"></i></button>
-    <button id="nextButton"><i class="fas fa-step-forward"></i></button>
-  </div>
 
   <script>
     const musicPlayer = document.getElementById('musicPlayer');
+    const playPauseButton = document.getElementById('playPauseButton');
     const albumArt = document.getElementById('albumArt');
     const trackTitle = document.getElementById('trackTitle');
     const trackArtist = document.getElementById('trackArtist');
+    const trackLyrics = document.getElementById('trackLyrics');
     const previousButton = document.getElementById('previousButton');
-    const playPauseButton = document.getElementById('playPauseButton');
     const nextButton = document.getElementById('nextButton');
+    const progress = document.getElementById('progress');
+    const currentTime = document.getElementById('currentTime');
+    const totalTime = document.getElementById('totalTime');
 
+    let isPlaying = false;
+    let currentTrackIndex = 0;
+
+    // Track List
     const tracks = [
       {
         src: '/music/Lany - Pink Skies (Lyrics).m4a',
         img: '/images/pink-skies.jpg',
-        title: 'Pink Skies'
+        title: 'PINK SKIES',
+        artist: 'LANY',
+        lyrics: '"That it\'s better, you and I, under pink skies"'
       },
       {
         src: '/music/Thru These Tears Lany Lyrics.mp3.m4a',
         img: '/images/thruthesetears.jpg',
-        title: 'Thru These Tears'
+        title: 'THRU THESE TEARS',
+        artist: 'LANY',
+        lyrics: '"But right now, I can\'t see nothing through these tears"'
       },
       {
         src: '/music/LANY - Thick And Thin (Lyrics).m4a',
         img: '/images/thick&thin.jpg',
-        title: 'Thick & Thin'
+        title: 'THICK & THIN',
+        artist: 'LANY',
+        lyrics: '"Thought you\'d be there through thick and thin"'
       },
       {
-      src: '/music/LANY - XXL (Lyrics).m4a',
-      img: '/images/xxl.jpg',
-      title: 'XXL'
+        src: '/music/LANY - XXL (Lyrics).m4a',
+        img: '/images/xxl.jpg',
+        title: 'XXL',
+        artist: 'LANY',
+        lyrics: '"I still remember, I will forever, I miss you double XL"'
       },
       {
-      src: '/music/LANY - Cause You Have To (Lyrics).m4a',
-      img: '/images/causeyouhaveto.jpg',
-      title: 'Cause You Have To'
-      },
+        src: '/music/LANY - Cause You Have To (Lyrics).m4a',
+        img: '/images/causeyouhaveto.jpg',
+        title: 'CAUSE YOU HAVE TO',
+        artist: 'LANY',
+        lyrics: '"Do you only love me cause you have to?"'
+      }
     ];
 
-    let currentTrackIndex = 0;
-    let isPlaying = false;
-
+    // Load a track based on index
     function loadTrack(index) {
-      musicPlayer.src = tracks[index].src;
-      albumArt.src = tracks[index].img;
-      trackTitle.textContent = tracks[index].title;
-      trackArtist.textContent = tracks[index].artist;
+      const track = tracks[index];
+      musicPlayer.src = track.src;
+      albumArt.src = track.img;
+      trackTitle.textContent = track.title;
+      trackArtist.textContent = track.artist;
+      trackLyrics.textContent = track.lyrics;
+      
+      // Update total time display
+      musicPlayer.onloadedmetadata = function() {
+        totalTime.textContent = formatTime(musicPlayer.duration);
+      };
     }
 
+    // Toggle Play/Pause
     function togglePlayPause() {
       if (isPlaying) {
         musicPlayer.pause();
         isPlaying = false;
         playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+        albumArt.style.animationPlayState = 'paused';
       } else {
         musicPlayer.play();
         isPlaying = true;
         playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+        albumArt.style.animationPlayState = 'running';
       }
     }
 
+    // Play next track
     function playNextTrack() {
       currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
       loadTrack(currentTrackIndex);
-      if (isPlaying) musicPlayer.play();
+      if (isPlaying) {
+        musicPlayer.play();
+      }
     }
 
+    // Play previous track
     function playPreviousTrack() {
       currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
       loadTrack(currentTrackIndex);
-      if (isPlaying) musicPlayer.play();
+      if (isPlaying) {
+        musicPlayer.play();
+      }
     }
-    
+
+    // Update progress bar and current time display
+    musicPlayer.addEventListener('timeupdate', () => {
+      const current = musicPlayer.currentTime;
+      const duration = musicPlayer.duration
+      const progressPercentage = (current / duration) * 100;
+      progress.style.width = progressPercentage + '%';
+      currentTime.textContent = formatTime(current);
+    });
+
+    // Format time as mm:ss
+    function formatTime(timeInSeconds) {
+      const minutes = Math.floor(timeInSeconds / 60);
+      const seconds = Math.floor(timeInSeconds % 60);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    // Event Listeners
     playPauseButton.addEventListener('click', togglePlayPause);
     nextButton.addEventListener('click', playNextTrack);
     previousButton.addEventListener('click', playPreviousTrack);
-    
-    musicPlayer.addEventListener('ended', playNextTrack);
 
+    // Load the first track on page load
     loadTrack(currentTrackIndex);
   </script>
+
 </body>
 </html>
