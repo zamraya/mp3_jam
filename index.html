@@ -260,7 +260,7 @@
 
     musicPlayer.addEventListener('timeupdate', () => {
       const current = musicPlayer.currentTime;
-      const duration = musicPlayer.duration
+      const duration = musicPlayer.duration;
       const progressPercentage = (current / duration) * 100;
       progress.style.width = progressPercentage + '%';
       currentTime.textContent = formatTime(current);
